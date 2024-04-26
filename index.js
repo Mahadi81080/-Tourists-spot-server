@@ -1,5 +1,5 @@
 const express = require('express')
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors');
 require('dotenv').config()
 const app = express()
@@ -30,10 +30,20 @@ async function run() {
       const result =await cursor.toArray()
       res.send(result)
     })
+    // app.get('/addSpot/:User_email'),async(req,res)=>{
+    //   const email = req.params.User_email;
+
+    // }
     app.post('/addSpot',async(req,res)=>{
       const newSpot =req.body;
       console.log(newSpot);
       const result =await spotCollection.insertOne(newSpot)
+      res.send(result)
+    })
+    app.delete('/addSpot/:id',async(req,res)=>{
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await spotCollection.deleteOne(query);
       res.send(result)
     })
 
