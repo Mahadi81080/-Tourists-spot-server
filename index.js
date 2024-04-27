@@ -24,6 +24,7 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
     const spotCollection = client.db("spotDB").collection("spot");
+    const countriesCollection = client.db("spotDB").collection("countries");
     app.get("/addSpot", async (req, res) => {
       const cursor = spotCollection.find();
       const result = await cursor.toArray();
@@ -68,6 +69,16 @@ async function run() {
       const result = await spotCollection.deleteOne(query);
       res.send(result);
     });
+
+
+    // Countries related Api
+
+    app.get("/countries", async (req, res) => {
+      const cursor = countriesCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
